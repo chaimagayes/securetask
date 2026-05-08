@@ -104,7 +104,7 @@ jobs:
                 certbot/certbot certonly --webroot \
                   -w /var/www/certbot \
                   -d securetask.me -d www.securetask.me \
-                  --email YOUR_EMAIL@example.com \
+                  --email chaymagayes@gmail.com \
                   --agree-tos --no-eff-email --non-interactive
               # Restore SSL config and reload nginx
               sudo git -C "$HOME/securetask" checkout nginx/conf.d/ssl.conf
