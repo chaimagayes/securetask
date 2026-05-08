@@ -106,9 +106,9 @@ jobs:
                   -d securetask.me -d www.securetask.me \
                   --email chaymagayes@gmail.com \
                   --agree-tos --no-eff-email --non-interactive
-              # Restore SSL config and reload nginx
+              # Restore SSL config and restart nginx with HTTPS
               sudo git -C "$HOME/securetask" checkout nginx/conf.d/ssl.conf
-              sudo docker compose exec nginx nginx -s reload
+              sudo docker compose up -d nginx
             fi
 
             sudo docker compose up -d --no-build
