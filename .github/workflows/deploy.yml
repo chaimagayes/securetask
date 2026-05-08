@@ -75,7 +75,8 @@ jobs:
             if [ ! -d "$HOME/securetask" ]; then
               git clone https://github.com/${{ github.repository }}.git "$HOME/securetask"
             else
-              git -C "$HOME/securetask" pull
+              git -C "$HOME/securetask" fetch origin
+              git -C "$HOME/securetask" reset --hard origin/main
             fi
 
             cd "$HOME/securetask"
