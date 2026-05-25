@@ -2,7 +2,7 @@
 import os
 import logging
 from logging.handlers import RotatingFileHandler
-from flask import Flask, flash, redirect, url_for, send_from_directory
+from flask import Flask, flash, redirect, url_for, send_from_directory, jsonify
 from flask_cors import CORS
 from flask_swagger_ui import get_swaggerui_blueprint
 from flask_login import LoginManager
@@ -67,6 +67,10 @@ def create_web_app():
     @app.route('/static/swagger.json')
     def serve_swagger_json():
         return send_from_directory(app.static_folder, 'swagger.json')
+
+    @app.route('/health')
+    def health_check():
+        return jsonify({"status": "ok"}), 200
     
     return app
 

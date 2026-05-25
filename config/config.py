@@ -21,4 +21,7 @@ class Testing(Config):
 class Production(Config):
     #Config related to production environment
     #SQLALCHEMY_DATABASE_URI = 'sqlite:///production.db'
-    SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URI', 'postgresql://username:password@hostname:port/database_name')
+    SQLALCHEMY_DATABASE_URI = os.getenv(
+        'DATABASE_URI',
+        f"postgresql://{os.getenv('POSTGRES_USER', 'securetask')}:{os.getenv('POSTGRES_PASSWORD', 'change-me')}@db:5432/{os.getenv('POSTGRES_DB', 'securetask')}"
+    )
