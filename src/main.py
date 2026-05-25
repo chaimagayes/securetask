@@ -5,7 +5,7 @@ from logging.handlers import RotatingFileHandler
 from flask import Flask, flash, redirect, url_for, send_from_directory, jsonify
 from flask_cors import CORS
 from flask_swagger_ui import get_swaggerui_blueprint
-from flask_login import LoginManager
+from flask_login import LoginManager, current_user
 from src.task_management.auth.models import User
 from src.task_management.auth.routes import auth_bp
 from src.task_management.tasks.routes import task_bp
@@ -71,6 +71,12 @@ def create_web_app():
     @app.route('/health')
     def health_check():
         return jsonify({"status": "ok"}), 200
+
+    @app.route('/')
+    def index():
+        if current_user.is_authenticated:
+            return redirect(url_for('tasks.dashboard'))
+        return redirect(url_for('auth.login'))
     
     return app
 

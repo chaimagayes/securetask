@@ -5,6 +5,7 @@ It supports registering new users, logging in, and logging out.
 """
 from flask import Blueprint, request, jsonify, redirect, url_for, render_template, flash
 from flask_login import login_user, login_required, logout_user
+from sqlalchemy.exc import IntegrityError
 from werkzeug.security import check_password_hash, generate_password_hash
 from .models import User
 from src.task_management.db import db
@@ -36,8 +37,13 @@ def register():
             db.session.commit()
             flash("User registered successfully.")
             return redirect(url_for('auth.login')) #201
+        except IntegrityError as e:
+            db.session.rollback()
+            print(f"Registration integrity error: {e}")
+            return jsonify({"error": "User already registered or invalid data provided"}), 400
         except Exception as e:
             db.session.rollback()
+            print(f"Registration failed: {e}")
             return jsonify({"error": "Registration failed"}), 500
     return render_template('register.html')
     
