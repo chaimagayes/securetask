@@ -11,3 +11,6 @@ env/
 
 # Ignore Python cache directories
 __pycache__
+
+
+logs/

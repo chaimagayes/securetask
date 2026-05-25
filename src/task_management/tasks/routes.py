@@ -58,29 +58,28 @@ def edit_task(task_id):
     task = Task.query.get_or_404(task_id, "Task not found in the database")
     
     if request.method == 'POST':
-        # Check for hidden _method field in the form
-        if request.form.get('_method') == 'PUT':
-            title = request.form.get('title')
-            description = request.form.get('description')
-            due_date_str = request.form.get('due_date')
-            priority = request.form.get('priority')
-        
-            if not (title and due_date_str):
-                flash("Title and Due Date cannot be empty.", "warning")
-                return render_template('edit_task.html', task=task)
-        
-            try:
-                task.title = title
-                task.description = description
-                task.due_date = datetime.strptime(due_date_str, '%Y-%m-%d')
-                task.priority = priority
-                db.session.commit()
-                flash("Task updated successfully!", "success")
-                return redirect(url_for('tasks.dashboard')) #302
-            except Exception as e:
-                db.session.rollback()
-                flash(f"Error editing the task: {str(e)}", "error")
-                return render_template('edit_task.html') #500
+        # Process form submission as an update (accept plain POST from forms/tests)
+        title = request.form.get('title')
+        description = request.form.get('description')
+        due_date_str = request.form.get('due_date')
+        priority = request.form.get('priority')
+
+        if not (title and due_date_str):
+            flash("Title and Due Date cannot be empty.", "warning")
+            return render_template('edit_task.html', task=task)
+
+        try:
+            task.title = title
+            task.description = description
+            task.due_date = datetime.strptime(due_date_str, '%Y-%m-%d')
+            task.priority = priority
+            db.session.commit()
+            flash("Task updated successfully!", "success")
+            return redirect(url_for('tasks.dashboard')) #302
+        except Exception as e:
+            db.session.rollback()
+            flash(f"Error editing the task: {str(e)}", "error")
+            return render_template('edit_task.html') #500
 
     return render_template('edit_task.html', task=task)
         
