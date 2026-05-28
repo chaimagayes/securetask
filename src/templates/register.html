@@ -3,13 +3,12 @@
 {% block title %}Register{% endblock %}
 
 {% block content %}
-<div class="card-soft mx-auto" style="max-width: 520px;">
+<div class="card-soft mx-auto" style="max-width: 480px;">
     <!-- Header -->
     <div class="text-center mb-4">
         <div class="mb-3">
-            <div class="d-inline-flex align-items-center justify-content-center rounded-circle bg-success-subtle" 
-                 style="width: 64px; height: 64px;">
-                <i class="bi bi-person-plus-fill text-success" style="font-size: 1.8rem;"></i>
+            <div class="auth-icon-wrapper bg-success-subtle">
+                <i class="bi bi-person-plus-fill text-success"></i>
             </div>
         </div>
         <h2 class="form-heading mb-1">Create Your Account</h2>
@@ -17,7 +16,7 @@
     </div>
     
     <!-- Registration Form -->
-    <form method="POST" action="{{ url_for('auth.register') }}">
+    <form method="POST" action="{{ url_for('auth.register') }}" novalidate>
         <!-- Username -->
         <div class="mb-3">
             <label for="username" class="form-label">
@@ -25,8 +24,8 @@
                 Username
             </label>
             <div class="input-group">
-                <span class="input-group-text bg-light border-end-0">
-                    <i class="bi bi-person-fill text-muted"></i>
+                <span class="input-group-text input-icon-left">
+                    <i class="bi bi-person-fill"></i>
                 </span>
                 <input 
                     type="text" 
@@ -54,8 +53,8 @@
                 Email Address
             </label>
             <div class="input-group">
-                <span class="input-group-text bg-light border-end-0">
-                    <i class="bi bi-envelope-fill text-muted"></i>
+                <span class="input-group-text input-icon-left">
+                    <i class="bi bi-envelope-fill"></i>
                 </span>
                 <input 
                     type="email" 
@@ -80,8 +79,8 @@
                 Password
             </label>
             <div class="input-group">
-                <span class="input-group-text bg-light border-end-0">
-                    <i class="bi bi-lock-fill text-muted"></i>
+                <span class="input-group-text input-icon-left">
+                    <i class="bi bi-lock-fill"></i>
                 </span>
                 <input 
                     type="password" 
@@ -94,23 +93,23 @@
                     autocomplete="new-password"
                 >
                 <button 
-                    class="btn btn-light border border-start-0" 
+                    class="btn input-icon-right" 
                     type="button" 
                     id="togglePassword"
                     title="Show password"
                 >
-                    <i class="bi bi-eye-slash text-muted"></i>
+                    <i class="bi bi-eye-slash"></i>
                 </button>
             </div>
         </div>
         
-        <!-- Password Strength Indicator -->
-        <div class="mb-2">
-            <div class="d-flex gap-1" id="passwordStrength">
-                <div class="flex-grow-1 bg-light rounded" style="height: 4px;"></div>
-                <div class="flex-grow-1 bg-light rounded" style="height: 4px;"></div>
-                <div class="flex-grow-1 bg-light rounded" style="height: 4px;"></div>
-                <div class="flex-grow-1 bg-light rounded" style="height: 4px;"></div>
+        <!-- Password Strength Meter -->
+        <div class="mb-3">
+            <div class="password-strength-meter" id="passwordStrength">
+                <div class="strength-bar"></div>
+                <div class="strength-bar"></div>
+                <div class="strength-bar"></div>
+                <div class="strength-bar"></div>
             </div>
             <div class="form-text" id="passwordFeedback">
                 <i class="bi bi-info-circle me-1"></i>
@@ -119,29 +118,27 @@
         </div>
         
         <!-- Password Requirements Checklist -->
-        <div class="mb-4 p-3 bg-light rounded-3 border small">
-            <div class="fw-medium mb-2">Password must contain:</div>
-            <div class="d-grid gap-1">
-                <div class="d-flex align-items-center gap-2 text-muted" id="req-length">
-                    <i class="bi bi-circle"></i>
-                    At least 8 characters
-                </div>
-                <div class="d-flex align-items-center gap-2 text-muted" id="req-uppercase">
-                    <i class="bi bi-circle"></i>
-                    One uppercase letter
-                </div>
-                <div class="d-flex align-items-center gap-2 text-muted" id="req-lowercase">
-                    <i class="bi bi-circle"></i>
-                    One lowercase letter
-                </div>
-                <div class="d-flex align-items-center gap-2 text-muted" id="req-number">
-                    <i class="bi bi-circle"></i>
-                    One number
-                </div>
-                <div class="d-flex align-items-center gap-2 text-muted" id="req-special">
-                    <i class="bi bi-circle"></i>
-                    One special character (!@#$%^&*)
-                </div>
+        <div class="password-checklist mb-4">
+            <div class="checklist-title">Password must contain:</div>
+            <div class="checklist-item text-muted" id="req-length">
+                <i class="bi bi-circle"></i>
+                <span>At least 8 characters</span>
+            </div>
+            <div class="checklist-item text-muted" id="req-uppercase">
+                <i class="bi bi-circle"></i>
+                <span>One uppercase letter</span>
+            </div>
+            <div class="checklist-item text-muted" id="req-lowercase">
+                <i class="bi bi-circle"></i>
+                <span>One lowercase letter</span>
+            </div>
+            <div class="checklist-item text-muted" id="req-number">
+                <i class="bi bi-circle"></i>
+                <span>One number</span>
+            </div>
+            <div class="checklist-item text-muted" id="req-special">
+                <i class="bi bi-circle"></i>
+                <span>One special character (!@#$%^&*)</span>
             </div>
         </div>
         
@@ -151,9 +148,9 @@
                 <input class="form-check-input" type="checkbox" id="terms" required>
                 <label class="form-check-label small" for="terms">
                     I agree to the 
-                    <a href="#" class="text-decoration-none" style="color: var(--accent);">Terms of Service</a> 
+                    <a href="#" class="terms-link">Terms of Service</a> 
                     and 
-                    <a href="#" class="text-decoration-none" style="color: var(--accent);">Privacy Policy</a>
+                    <a href="#" class="terms-link">Privacy Policy</a>
                 </label>
             </div>
         </div>
@@ -175,17 +172,19 @@
     </form>
     
     <!-- Trust Indicators -->
-    <div class="text-center mt-4 pt-3 border-top">
-        <div class="d-flex justify-content-center gap-4 small-muted">
-            <span class="d-flex align-items-center gap-1">
+    <div class="auth-footer">
+        <div class="trust-indicators">
+            <span class="trust-item">
                 <i class="bi bi-shield-lock"></i>
                 Secure
             </span>
-            <span class="d-flex align-items-center gap-1">
+            <span class="trust-divider"></span>
+            <span class="trust-item">
                 <i class="bi bi-lightning-charge"></i>
                 Free
             </span>
-            <span class="d-flex align-items-center gap-1">
+            <span class="trust-divider"></span>
+            <span class="trust-item">
                 <i class="bi bi-clock-history"></i>
                 Quick Setup
             </span>
@@ -193,107 +192,263 @@
     </div>
 </div>
 
-<!-- Password Strength & Validation Script -->
+<!-- Password Toggle & Strength Script -->
 <script>
-document.addEventListener('DOMContentLoaded', function() {
+(function() {
     const passwordInput = document.getElementById('password');
     const toggleBtn = document.getElementById('togglePassword');
-    const strengthBars = document.querySelectorAll('#passwordStrength div');
+    const strengthBars = document.querySelectorAll('#passwordStrength .strength-bar');
+    const feedback = document.getElementById('passwordFeedback');
     
-    // Password requirements elements
-    const reqLength = document.getElementById('req-length');
-    const reqUppercase = document.getElementById('req-uppercase');
-    const reqLowercase = document.getElementById('req-lowercase');
-    const reqNumber = document.getElementById('req-number');
-    const reqSpecial = document.getElementById('req-special');
-    
-    // Toggle password visibility
+    // Password toggle
     toggleBtn.addEventListener('click', function() {
         const icon = this.querySelector('i');
-        if (passwordInput.type === 'password') {
-            passwordInput.type = 'text';
-            icon.classList.remove('bi-eye-slash');
-            icon.classList.add('bi-eye');
-            this.setAttribute('title', 'Hide password');
-        } else {
-            passwordInput.type = 'password';
-            icon.classList.remove('bi-eye');
-            icon.classList.add('bi-eye-slash');
-            this.setAttribute('title', 'Show password');
-        }
+        const isPassword = passwordInput.type === 'password';
+        passwordInput.type = isPassword ? 'text' : 'password';
+        icon.classList.toggle('bi-eye', isPassword);
+        icon.classList.toggle('bi-eye-slash', !isPassword);
+        this.setAttribute('title', isPassword ? 'Hide password' : 'Show password');
     });
     
     // Password strength checker
     passwordInput.addEventListener('input', function() {
         const password = this.value;
-        let strength = 0;
+        const checks = {
+            length: password.length >= 8,
+            upper: /[A-Z]/.test(password),
+            lower: /[a-z]/.test(password),
+            number: /[0-9]/.test(password),
+            special: /[!@#$%^&*(),.?":{}|<>]/.test(password)
+        };
         
-        // Check requirements
-        const hasLength = password.length >= 8;
-        const hasUpper = /[A-Z]/.test(password);
-        const hasLower = /[a-z]/.test(password);
-        const hasNumber = /[0-9]/.test(password);
-        const hasSpecial = /[!@#$%^&*(),.?":{}|<>]/.test(password);
-        
-        // Update requirement indicators
-        updateRequirement(reqLength, hasLength);
-        updateRequirement(reqUppercase, hasUpper);
-        updateRequirement(reqLowercase, hasLower);
-        updateRequirement(reqNumber, hasNumber);
-        updateRequirement(reqSpecial, hasSpecial);
+        // Update checklist
+        updateChecklist('req-length', checks.length);
+        updateChecklist('req-uppercase', checks.upper);
+        updateChecklist('req-lowercase', checks.lower);
+        updateChecklist('req-number', checks.number);
+        updateChecklist('req-special', checks.special);
         
         // Calculate strength
-        if (hasLength) strength++;
-        if (hasUpper) strength++;
-        if (hasLower) strength++;
-        if (hasNumber) strength++;
-        if (hasSpecial) strength++;
+        const strength = Object.values(checks).filter(Boolean).length;
         
         // Update strength bars
         strengthBars.forEach((bar, index) => {
-            bar.className = 'flex-grow-1 rounded';
+            bar.className = 'strength-bar';
             if (index < strength) {
-                if (strength <= 2) {
-                    bar.classList.add('bg-danger');
-                } else if (strength <= 3) {
-                    bar.classList.add('bg-warning');
-                } else if (strength <= 4) {
-                    bar.classList.add('bg-info');
-                } else {
-                    bar.classList.add('bg-success');
-                }
-            } else {
-                bar.classList.add('bg-light');
+                const colors = ['danger', 'danger', 'warning', 'info', 'success'];
+                bar.classList.add(`bg-${colors[Math.min(strength - 1, 4)]}`);
             }
         });
         
-        // Update feedback message
-        const feedback = document.getElementById('passwordFeedback');
+        // Update feedback text
         const messages = ['Very weak', 'Weak', 'Fair', 'Good', 'Strong'];
         const colors = ['text-danger', 'text-danger', 'text-warning', 'text-info', 'text-success'];
-        const strengthLevel = Math.min(strength, 4);
+        const level = Math.min(strength, 4);
         
         if (password.length === 0) {
             feedback.innerHTML = '<i class="bi bi-info-circle me-1"></i>Minimum 8 characters with mixed case, numbers, and symbols';
             feedback.className = 'form-text';
         } else {
-            feedback.innerHTML = `<i class="bi bi-shield-check me-1"></i>Password strength: <strong>${messages[strengthLevel]}</strong>`;
-            feedback.className = `form-text ${colors[strengthLevel]}`;
+            feedback.innerHTML = `<i class="bi bi-shield-check me-1"></i>Password strength: <strong>${messages[level]}</strong>`;
+            feedback.className = `form-text ${colors[level]}`;
         }
     });
     
-    function updateRequirement(element, isValid) {
+    function updateChecklist(id, isValid) {
+        const element = document.getElementById(id);
         const icon = element.querySelector('i');
         if (isValid) {
             icon.className = 'bi bi-check-circle-fill text-success';
             element.classList.remove('text-muted');
             element.classList.add('text-success');
         } else {
-            icon.className = 'bi bi-circle text-muted';
+            icon.className = 'bi bi-circle';
             element.classList.add('text-muted');
             element.classList.remove('text-success');
         }
     }
-});
+})();
 </script>
+
+<!-- Page-specific styles -->
+<style>
+/* Auth icon wrapper */
+.auth-icon-wrapper {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+}
+
+.auth-icon-wrapper i {
+    font-size: 1.8rem;
+}
+
+/* Input group icons */
+.input-icon-left {
+    background: #f8fafc;
+    border-right: 0;
+    color: #94a3b8;
+}
+
+.input-icon-left i {
+    font-size: 0.9rem;
+}
+
+.input-icon-right {
+    background: #f8fafc;
+    border: 1px solid #cbd5e1;
+    border-left: 0;
+    color: #94a3b8;
+    padding: 0.375rem 0.75rem;
+    transition: all var(--transition);
+}
+
+.input-icon-right:hover {
+    background: #f1f5f9;
+    color: #64748b;
+}
+
+.input-icon-right i {
+    font-size: 0.9rem;
+}
+
+/* Password strength meter */
+.password-strength-meter {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 0.5rem;
+}
+
+.strength-bar {
+    flex: 1;
+    height: 4px;
+    border-radius: 2px;
+    background: #e2e8f0;
+    transition: background-color 0.3s ease;
+}
+
+/* Password checklist */
+.password-checklist {
+    background: #f8fafc;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    padding: 0.875rem 1rem;
+}
+
+.checklist-title {
+    font-weight: 500;
+    font-size: 0.8125rem;
+    color: #475569;
+    margin-bottom: 0.5rem;
+}
+
+.checklist-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.8125rem;
+    padding: 0.125rem 0;
+    transition: color 0.2s ease;
+}
+
+.checklist-item i {
+    font-size: 0.75rem;
+    flex-shrink: 0;
+}
+
+/* Terms links */
+.terms-link {
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.terms-link:hover {
+    text-decoration: underline;
+    color: var(--accent-strong);
+}
+
+/* Auth footer */
+.auth-footer {
+    text-align: center;
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--line);
+}
+
+.trust-indicators {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.trust-item {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+    color: #64748b;
+    font-size: 0.8125rem;
+}
+
+.trust-item i {
+    font-size: 0.875rem;
+}
+
+.trust-divider {
+    width: 1px;
+    height: 16px;
+    background: var(--line);
+}
+
+/* Form check customization */
+.form-check-input {
+    cursor: pointer;
+    border-color: #cbd5e1;
+}
+
+.form-check-input:checked {
+    background-color: #059669;
+    border-color: #059669;
+}
+
+.form-check-input:focus {
+    border-color: #6ee7b7;
+    box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.1);
+}
+
+.form-check-label {
+    cursor: pointer;
+    color: #475569;
+}
+
+/* Responsive */
+@media (max-width: 576px) {
+    .card-soft {
+        padding: 20px;
+    }
+    
+    .auth-icon-wrapper {
+        width: 56px;
+        height: 56px;
+    }
+    
+    .auth-icon-wrapper i {
+        font-size: 1.5rem;
+    }
+    
+    .trust-divider {
+        display: none;
+    }
+    
+    .trust-indicators {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+}
+</style>
 {% endblock %}

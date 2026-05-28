@@ -25,78 +25,75 @@
 <body>
     <div class="app-shell">
         <!-- Top Navigation Bar -->
-        <header class="app-topbar">
-            <nav class="navbar navbar-expand-lg">
-                <div class="container-fluid app-container">
-                    <!-- Brand -->
-                    <a class="navbar-brand d-flex align-items-center gap-2" href="{{ url_for('tasks.dashboard') if current_user.is_authenticated else url_for('auth.login') }}">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" viewBox="0 0 16 16">
-                            <path d="M5.5 7a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1h-5zM5 9.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5z"/>
-                            <path d="M1.5 2A1.5 1.5 0 0 0 0 3.5v2h1v-2a.5.5 0 0 1 .5-.5H3a.5.5 0 0 1 .5.5v2h1v-2A1.5 1.5 0 0 0 3 2H1.5zM0 13.5A1.5 1.5 0 0 0 1.5 15H3a1.5 1.5 0 0 0 1.5-1.5v-2H0v2zM13.5 15H15a1.5 1.5 0 0 0 1.5-1.5v-2h-3v2a1.5 1.5 0 0 0 1.5 1.5zM16 5.5v-2A1.5 1.5 0 0 0 14.5 2H13a1.5 1.5 0 0 0-1.5 1.5v2h4v-.5z"/>
-                        </svg>
-                        SecureTask
-                    </a>
-                    
-                    <!-- Mobile Toggle -->
-                    <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    
-                    <!-- Navigation Links -->
-                    <div class="collapse navbar-collapse" id="navbarNav">
-                        <ul class="navbar-nav me-auto mb-2 mb-lg-0 nav-main-links">
-                            {% if current_user.is_authenticated %}
-                                <li class="nav-item">
-                                    <a class="nav-link d-flex align-items-center gap-1" href="{{ url_for('tasks.dashboard') }}">
-                                        <i class="bi bi-grid-1x2-fill small"></i>
-                                        Dashboard
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link d-flex align-items-center gap-1" href="{{ url_for('tasks.add_new_task') }}">
-                                        <i class="bi bi-plus-circle"></i>
-                                        New Task
-                                    </a>
-                                </li>
-                            {% endif %}
-                        </ul>
-                        
-                        <!-- User Actions -->
-                        <ul class="navbar-nav ms-auto align-items-lg-center nav-action-links">
-                            {% if current_user.is_authenticated %}
-                                <li class="nav-item d-flex align-items-center">
-                                    <span class="text-muted small me-3 d-none d-lg-inline">
-                                        <i class="bi bi-person-circle me-1"></i>
-                                        {{ current_user.username }}
-                                    </span>
-                                </li>
-                                <li class="nav-item">
-                                    <form action="{{ url_for('auth.logout') }}" method="post">
-                                        <button type="submit" class="btn btn-danger-soft btn-sm d-flex align-items-center gap-1">
-                                            <i class="bi bi-box-arrow-right"></i>
-                                            Logout
-                                        </button>
-                                    </form>
-                                </li>
-                            {% else %}
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ url_for('auth.login') }}">
-                                        <i class="bi bi-box-arrow-in-right me-1"></i>
-                                        Login
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="btn btn-primary btn-sm d-flex align-items-center gap-1" href="{{ url_for('auth.register') }}">
-                                        <i class="bi bi-person-plus"></i>
-                                        Register
-                                    </a>
-                                </li>
-                            {% endif %}
-                        </ul>
-                    </div>
-                </div>
-            </nav>
-        </header>
+<header class="app-topbar">
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid app-container">
+            <!-- Brand -->
+            <a class="navbar-brand d-flex align-items-center gap-2" href="{{ url_for('tasks.dashboard') if current_user.is_authenticated else url_for('auth.login') }}">
+                <i class="bi bi-check2-square text-primary" style="font-size: 1.4rem;"></i>
+                SecureTask
+            </a>
+            
+            <!-- Mobile Toggle -->
+            <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <i class="bi bi-list" style="font-size: 1.5rem;"></i>
+            </button>
+            
+            <!-- Navigation Links -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0 nav-main-links">
+                    {% if current_user.is_authenticated %}
+                        <li class="nav-item">
+                            <a class="nav-link d-flex align-items-center gap-1" href="{{ url_for('tasks.dashboard') }}">
+                                <i class="bi bi-grid-1x2-fill"></i>
+                                Dashboard
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link d-flex align-items-center gap-1" href="{{ url_for('tasks.add_new_task') }}">
+                                <i class="bi bi-plus-circle"></i>
+                                New Task
+                            </a>
+                        </li>
+                    {% endif %}
+                </ul>
+                
+                <!-- User Actions -->
+                <ul class="navbar-nav ms-auto align-items-lg-center nav-action-links">
+                    {% if current_user.is_authenticated %}
+                        <li class="nav-item d-flex align-items-center">
+                            <span class="nav-user text-capitalize d-none d-lg-flex align-items-center gap-1">
+                                <i class="bi bi-person-circle"></i>
+                                {{ current_user.username }}
+                            </span>
+                        </li>
+                        <li class="nav-item">
+                            <form action="{{ url_for('auth.logout') }}" method="post">
+                                <button type="submit" class="btn btn-logout btn-sm d-flex align-items-center gap-1">
+                                    <i class="bi bi-box-arrow-right"></i>
+                                    <span class="d-none d-sm-inline">Logout</span>
+                                </button>
+                            </form>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link d-flex align-items-center gap-1" href="{{ url_for('auth.login') }}">
+                                <i class="bi bi-box-arrow-in-right"></i>
+                                Login
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="btn btn-primary btn-sm d-flex align-items-center gap-1" href="{{ url_for('auth.register') }}">
+                                <i class="bi bi-person-plus"></i>
+                                Register
+                            </a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
 
         <!-- Flash Messages -->
         {% with messages = get_flashed_messages(with_categories=true) %}

@@ -10,47 +10,49 @@
             <i class="bi bi-grid-1x2-fill text-primary" style="font-size: 1.3rem;"></i>
             Task Dashboard
         </h2>
-        <p class="small-muted mb-0">Track your priorities and due dates in one organized place.</p>
+        <p class="small-muted mb-0" style="color: #64748b !important;">Track your priorities and due dates in one organized place.</p>
     </div>
+    {% if tasks %}
     <a href="{{ url_for('tasks.add_new_task') }}" class="btn btn-primary d-flex align-items-center gap-1">
         <i class="bi bi-plus-lg"></i>
         Add Task
     </a>
+    {% endif %}
 </div>
 
 {% if tasks %}
     <!-- Task Stats Overview -->
     <div class="row g-3 mb-4">
         <div class="col-sm-4">
-            <div class="card-soft text-center p-3">
+            <div class="stats-card text-center">
                 <div class="text-muted small mb-1">Total Tasks</div>
-                <div class="h4 mb-0 text-primary fw-bold">{{ tasks|length }}</div>
+                <div class="stats-number text-primary">{{ tasks|length }}</div>
             </div>
         </div>
         <div class="col-sm-4">
-            <div class="card-soft text-center p-3">
+            <div class="stats-card text-center">
                 <div class="text-muted small mb-1">High Priority</div>
-                <div class="h4 mb-0 text-danger fw-bold">
-                    {{ tasks|selectattr('priority', 'equalto', 'High')|list|length if tasks|selectattr('priority', 'equalto', 'High') else 0 }}
+                <div class="stats-number text-danger">
+                    {{ tasks|selectattr('priority', 'equalto', 'High')|list|length }}
                 </div>
             </div>
         </div>
         <div class="col-sm-4">
-            <div class="card-soft text-center p-3">
+            <div class="stats-card text-center">
                 <div class="text-muted small mb-1">Completed</div>
-                <div class="h4 mb-0 text-success fw-bold">
-                    {{ tasks|selectattr('status', 'equalto', 'Completed')|list|length if tasks|selectattr('status', 'equalto', 'Completed') else 0 }}
+                <div class="stats-number text-success">
+                    {{ tasks|selectattr('status', 'equalto', 'Completed')|list|length }}
                 </div>
             </div>
         </div>
     </div>
 
     <!-- Task List -->
-    <div class="d-grid gap-2">
+    <div class="task-list">
         {% for task in tasks %}
         <div class="task-item d-flex justify-content-between align-items-center gap-3 flex-wrap">
             <!-- Task Info -->
-            <div class="me-auto">
+            <div class="task-info">
                 <div class="d-flex align-items-center gap-2 mb-1">
                     <span class="task-title">{{ task.title }}</span>
                     {% if task.status == 'Completed' %}
@@ -62,58 +64,43 @@
                         <i class="bi bi-calendar3"></i>
                         {{ task.due_date.strftime('%b %d, %Y') }}
                     </span>
-                    <span class="text-muted">•</span>
+                    <span class="meta-separator">•</span>
                     <span class="d-flex align-items-center gap-1">
                         <i class="bi bi-flag-fill"></i>
                         {{ task.status }}
                     </span>
-                    {% if task.description %}
-                        <span class="text-muted">•</span>
-                        <span class="text-truncate" style="max-width: 200px;" title="{{ task.description }}">
-                            {{ task.description[:60] }}{% if task.description|length > 60 %}...{% endif %}
-                        </span>
-                    {% endif %}
                 </div>
             </div>
             
             <!-- Task Actions -->
-            <div class="d-flex align-items-center gap-2">
+            <div class="task-actions">
                 {% set priority = task.priority|lower %}
                 <span class="badge priority-badge 
                     {% if priority == 'high' %}
-                        bg-danger-subtle text-danger
+                        badge-high
                     {% elif priority == 'medium' %}
-                        bg-warning-subtle text-warning-emphasis
+                        badge-medium
                     {% else %}
-                        bg-success-subtle text-success
+                        badge-low
                     {% endif %}
                 ">
-                    {% if priority == 'high' %}
-                        <i class="bi bi-exclamation-triangle-fill me-1"></i>
-                    {% elif priority == 'medium' %}
-                        <i class="bi bi-exclamation-circle-fill me-1"></i>
-                    {% else %}
-                        <i class="bi bi-arrow-down-circle-fill me-1"></i>
-                    {% endif %}
                     {{ task.priority }}
                 </span>
                 
                 <a href="{{ url_for('tasks.edit_task', task_id=task.id) }}" 
-                   class="btn btn-sm btn-outline-primary d-flex align-items-center gap-1"
+                   class="btn btn-sm btn-outline-primary" 
                    title="Edit task">
                     <i class="bi bi-pencil"></i>
-                    <span class="d-none d-md-inline">Edit</span>
                 </a>
                 
                 <form action="{{ url_for('tasks.delete_task', task_id=task.id) }}" 
                       method="post" 
                       class="d-inline"
-                      onsubmit="return confirm('Are you sure you want to delete this task?');">
+                      onsubmit="return confirm('Delete this task?');">
                     <button type="submit" 
-                            class="btn btn-sm btn-outline-danger d-flex align-items-center gap-1"
+                            class="btn btn-sm btn-outline-danger"
                             title="Delete task">
                         <i class="bi bi-trash"></i>
-                        <span class="d-none d-md-inline">Delete</span>
                     </button>
                 </form>
             </div>
@@ -123,13 +110,13 @@
 
 {% else %}
     <!-- Empty State -->
-    <div class="card-soft empty-state text-center py-5">
-        <div class="mb-4">
-            <i class="bi bi-inbox display-3 text-muted"></i>
+    <div class="empty-state-container">
+        <div class="empty-icon">
+            <i class="bi bi-inbox"></i>
         </div>
-        <h3 class="h5 mb-2">No tasks yet</h3>
-        <p class="text-muted mb-4">Get started by creating your first task to stay organized.</p>
-        <a href="{{ url_for('tasks.add_new_task') }}" class="btn btn-primary d-inline-flex align-items-center gap-1">
+        <h3 class="empty-title">No tasks yet</h3>
+        <p class="empty-description">Get started by creating your first task to stay organized.</p>
+        <a href="{{ url_for('tasks.add_new_task') }}" class="btn btn-primary btn-lg d-inline-flex align-items-center gap-2">
             <i class="bi bi-plus-lg"></i>
             Create Your First Task
         </a>
