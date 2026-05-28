@@ -3,37 +3,169 @@
 {% block title %}Edit Task{% endblock %}
 
 {% block content %}
-<div class="card-soft mx-auto" style="max-width: 720px;">
-<h2 class="h-section">Edit Task</h2>
-<p class="small-muted mb-4">Update the details and save your changes.</p>
-<form method="POST" action="{{ url_for('tasks.edit_task', task_id=task.id) }}" class="d-grid gap-3">
-    <input type="hidden" name="_method" value="PUT">
-    <div>
-        <label for="title" class="form-label">Title</label>
-        <input type="text" class="form-control" id="title" name="title" value="{{ task.title }}" required>
+<div class="card-soft mx-auto" style="max-width: 680px;">
+    <!-- Header -->
+    <div class="mb-4">
+        <h2 class="form-heading mb-1 d-flex align-items-center gap-2">
+            <i class="bi bi-pencil-square text-primary"></i>
+            Update Task
+        </h2>
+        <p class="form-subtitle mb-0">Modify your task details and save the changes.</p>
     </div>
-    <div>
-        <label for="description" class="form-label">Description</label>
-        <textarea class="form-control" id="description" name="description">{{ task.description }}</textarea>
-    </div>
-    <div class="row g-3">
-        <div class="col-md-6">
-            <label for="due_date" class="form-label">Due Date</label>
-            <input type="date" class="form-control" id="due_date" name="due_date" value="{{ task.due_date.strftime('%Y-%m-%d') }}" required>
+    
+    <!-- Task Status Indicator -->
+    <div class="mb-4 p-3 bg-light rounded-3 border">
+        <div class="d-flex align-items-center gap-3 flex-wrap">
+            <div class="d-flex align-items-center gap-2">
+                <span class="text-muted small">Current Status:</span>
+                <span class="badge bg-primary-subtle text-primary fw-medium">
+                    <i class="bi bi-flag-fill me-1"></i>
+                    {{ task.status }}
+                </span>
+            </div>
+            <div class="d-flex align-items-center gap-2">
+                <span class="text-muted small">Created:</span>
+                <span class="small fw-medium">
+                    <i class="bi bi-calendar-plus me-1"></i>
+                    {{ task.created_at.strftime('%b %d, %Y') if task.created_at else 'N/A' }}
+                </span>
+            </div>
+            {% if task.updated_at and task.updated_at != task.created_at %}
+            <div class="d-flex align-items-center gap-2">
+                <span class="text-muted small">Last Modified:</span>
+                <span class="small fw-medium">
+                    <i class="bi bi-clock-history me-1"></i>
+                    {{ task.updated_at.strftime('%b %d, %Y at %H:%M') }}
+                </span>
+            </div>
+            {% endif %}
         </div>
-        <div class="col-md-6">
-            <label for="priority" class="form-label">Priority</label>
-            <select class="form-select" id="priority" name="priority">
-                <option {{ 'selected' if task.priority == 'Low' else '' }}>Low</option>
-                <option {{ 'selected' if task.priority == 'Medium' else '' }}>Medium</option>
-                <option {{ 'selected' if task.priority == 'High' else '' }}>High</option>
-            </select>
+    </div>
+    
+    <!-- Edit Form -->
+    <form method="POST" action="{{ url_for('tasks.edit_task', task_id=task.id) }}">
+        <div class="mb-3">
+            <label for="title" class="form-label">
+                Task Title <span class="text-danger">*</span>
+            </label>
+            <input 
+                type="text" 
+                class="form-control form-control-lg" 
+                id="title" 
+                name="title" 
+                value="{{ task.title }}" 
+                placeholder="e.g., Update project documentation" 
+                required
+                autofocus
+            >
         </div>
-    </div>
-    <div class="d-flex gap-2 pt-1">
-        <button type="submit" class="btn btn-primary">Update Task</button>
-        <a href="{{ url_for('tasks.dashboard') }}" class="btn btn-ghost">Cancel</a>
-    </div>
-</form>
+        
+        <div class="mb-3">
+            <label for="description" class="form-label">
+                Description
+                <span class="text-muted fw-normal">(optional)</span>
+            </label>
+            <textarea 
+                class="form-control" 
+                id="description" 
+                name="description" 
+                rows="4" 
+                placeholder="Add detailed notes, requirements, or updates..."
+            >{{ task.description if task.description else '' }}</textarea>
+            <div class="form-text">
+                <i class="bi bi-info-circle me-1"></i>
+                {{ task.description|length if task.description else 0 }} characters
+            </div>
+        </div>
+        
+        <div class="row g-3 mb-3">
+            <div class="col-md-6">
+                <label for="due_date" class="form-label">
+                    Due Date <span class="text-danger">*</span>
+                </label>
+                <input 
+                    type="date" 
+                    class="form-control" 
+                    id="due_date" 
+                    name="due_date" 
+                    value="{{ task.due_date.strftime('%Y-%m-%d') }}" 
+                    required
+                >
+                {% set days_until = (task.due_date.date() - today.date()).days if today else 0 %}
+                <div class="form-text">
+                    <i class="bi bi-calendar-check me-1"></i>
+                    {% if days_until > 0 %}
+                        <span class="text-success">{{ days_until }} days remaining</span>
+                    {% elif days_until == 0 %}
+                        <span class="text-warning">Due today</span>
+                    {% else %}
+                        <span class="text-danger">{{ days_until|abs }} days overdue</span>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <div class="col-md-6">
+                <label for="priority" class="form-label">Priority Level</label>
+                <select class="form-select" id="priority" name="priority">
+                    <option value="Low" {{ 'selected' if task.priority == 'Low' else '' }}>
+                        🟢 Low — Nice to have
+                    </option>
+                    <option value="Medium" {{ 'selected' if task.priority == 'Medium' else '' }}>
+                        🟡 Medium — Important
+                    </option>
+                    <option value="High" {{ 'selected' if task.priority == 'High' else '' }}>
+                        🔴 High — Urgent
+                    </option>
+                </select>
+            </div>
+        </div>
+        
+        <!-- Status Update Section -->
+        <div class="mb-4 p-3 bg-light rounded-3 border">
+            <label class="form-label mb-2">Update Status</label>
+            <div class="d-flex gap-2 flex-wrap">
+                <a href="{{ url_for('tasks.update_status', task_id=task.id, status='Pending') }}" 
+                   class="btn btn-sm {{ 'btn-primary' if task.status == 'Pending' else 'btn-ghost' }}">
+                    <i class="bi bi-clock"></i>
+                    Pending
+                </a>
+                <a href="{{ url_for('tasks.update_status', task_id=task.id, status='In Progress') }}" 
+                   class="btn btn-sm {{ 'btn-primary' if task.status == 'In Progress' else 'btn-ghost' }}">
+                    <i class="bi bi-arrow-repeat"></i>
+                    In Progress
+                </a>
+                <a href="{{ url_for('tasks.update_status', task_id=task.id, status='Completed') }}" 
+                   class="btn btn-sm {{ 'btn-primary' if task.status == 'Completed' else 'btn-ghost' }}">
+                    <i class="bi bi-check-lg"></i>
+                    Completed
+                </a>
+            </div>
+        </div>
+        
+        <!-- Action Buttons -->
+        <div class="border-top pt-3 mt-2">
+            <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary px-4 d-flex align-items-center gap-1">
+                        <i class="bi bi-check2-circle"></i>
+                        Save Changes
+                    </button>
+                    <a href="{{ url_for('tasks.dashboard') }}" class="btn btn-ghost">
+                        Cancel
+                    </a>
+                </div>
+                
+                <!-- Delete Task -->
+                <form action="{{ url_for('tasks.delete_task', task_id=task.id) }}" 
+                      method="post"
+                      onsubmit="return confirm('Are you sure you want to permanently delete this task? This action cannot be undone.');">
+                    <button type="submit" class="btn btn-danger-soft d-flex align-items-center gap-1">
+                        <i class="bi bi-trash"></i>
+                        Delete Task
+                    </button>
+                </form>
+            </div>
+        </div>
+    </form>
 </div>
 {% endblock %}

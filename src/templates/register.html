@@ -3,27 +3,297 @@
 {% block title %}Register{% endblock %}
 
 {% block content %}
-<div class="card-soft mx-auto" style="max-width: 560px;">
-<h2 class="h-section">Create Account</h2>
-<p class="small-muted mb-4">Create your account to manage tasks and deadlines.</p>
-<form method="POST" class="d-grid gap-3">
-    <div>
-        <label for="username" class="form-label">Username</label>
-        <input type="text" class="form-control" id="username" name="username" required>
+<div class="card-soft mx-auto" style="max-width: 520px;">
+    <!-- Header -->
+    <div class="text-center mb-4">
+        <div class="mb-3">
+            <div class="d-inline-flex align-items-center justify-content-center rounded-circle bg-success-subtle" 
+                 style="width: 64px; height: 64px;">
+                <i class="bi bi-person-plus-fill text-success" style="font-size: 1.8rem;"></i>
+            </div>
+        </div>
+        <h2 class="form-heading mb-1">Create Your Account</h2>
+        <p class="form-subtitle mb-0">Start managing tasks and deadlines in minutes.</p>
     </div>
-    <div>
-        <label for="email" class="form-label">Email</label>
-        <input type="email" class="form-control" id="email" name="email_id" required>
+    
+    <!-- Registration Form -->
+    <form method="POST" action="{{ url_for('auth.register') }}">
+        <!-- Username -->
+        <div class="mb-3">
+            <label for="username" class="form-label">
+                <i class="bi bi-person me-1"></i>
+                Username
+            </label>
+            <div class="input-group">
+                <span class="input-group-text bg-light border-end-0">
+                    <i class="bi bi-person-fill text-muted"></i>
+                </span>
+                <input 
+                    type="text" 
+                    class="form-control border-start-0 ps-0" 
+                    id="username" 
+                    name="username" 
+                    placeholder="Choose a username" 
+                    required
+                    autofocus
+                    minlength="3"
+                    maxlength="50"
+                    autocomplete="username"
+                >
+            </div>
+            <div class="form-text">
+                <i class="bi bi-info-circle me-1"></i>
+                3–50 characters, letters, numbers, and underscores
+            </div>
+        </div>
+        
+        <!-- Email -->
+        <div class="mb-3">
+            <label for="email" class="form-label">
+                <i class="bi bi-envelope me-1"></i>
+                Email Address
+            </label>
+            <div class="input-group">
+                <span class="input-group-text bg-light border-end-0">
+                    <i class="bi bi-envelope-fill text-muted"></i>
+                </span>
+                <input 
+                    type="email" 
+                    class="form-control border-start-0 ps-0" 
+                    id="email" 
+                    name="email_id" 
+                    placeholder="name@example.com" 
+                    required
+                    autocomplete="email"
+                >
+            </div>
+            <div class="form-text">
+                <i class="bi bi-shield-check me-1"></i>
+                We'll never share your email with anyone
+            </div>
+        </div>
+        
+        <!-- Password -->
+        <div class="mb-3">
+            <label for="password" class="form-label">
+                <i class="bi bi-key me-1"></i>
+                Password
+            </label>
+            <div class="input-group">
+                <span class="input-group-text bg-light border-end-0">
+                    <i class="bi bi-lock-fill text-muted"></i>
+                </span>
+                <input 
+                    type="password" 
+                    class="form-control border-start-0 border-end-0 ps-0" 
+                    id="password" 
+                    name="password" 
+                    placeholder="Create a secure password" 
+                    required
+                    minlength="8"
+                    autocomplete="new-password"
+                >
+                <button 
+                    class="btn btn-light border border-start-0" 
+                    type="button" 
+                    id="togglePassword"
+                    title="Show password"
+                >
+                    <i class="bi bi-eye-slash text-muted"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Password Strength Indicator -->
+        <div class="mb-2">
+            <div class="d-flex gap-1" id="passwordStrength">
+                <div class="flex-grow-1 bg-light rounded" style="height: 4px;"></div>
+                <div class="flex-grow-1 bg-light rounded" style="height: 4px;"></div>
+                <div class="flex-grow-1 bg-light rounded" style="height: 4px;"></div>
+                <div class="flex-grow-1 bg-light rounded" style="height: 4px;"></div>
+            </div>
+            <div class="form-text" id="passwordFeedback">
+                <i class="bi bi-info-circle me-1"></i>
+                Minimum 8 characters with mixed case, numbers, and symbols
+            </div>
+        </div>
+        
+        <!-- Password Requirements Checklist -->
+        <div class="mb-4 p-3 bg-light rounded-3 border small">
+            <div class="fw-medium mb-2">Password must contain:</div>
+            <div class="d-grid gap-1">
+                <div class="d-flex align-items-center gap-2 text-muted" id="req-length">
+                    <i class="bi bi-circle"></i>
+                    At least 8 characters
+                </div>
+                <div class="d-flex align-items-center gap-2 text-muted" id="req-uppercase">
+                    <i class="bi bi-circle"></i>
+                    One uppercase letter
+                </div>
+                <div class="d-flex align-items-center gap-2 text-muted" id="req-lowercase">
+                    <i class="bi bi-circle"></i>
+                    One lowercase letter
+                </div>
+                <div class="d-flex align-items-center gap-2 text-muted" id="req-number">
+                    <i class="bi bi-circle"></i>
+                    One number
+                </div>
+                <div class="d-flex align-items-center gap-2 text-muted" id="req-special">
+                    <i class="bi bi-circle"></i>
+                    One special character (!@#$%^&*)
+                </div>
+            </div>
+        </div>
+        
+        <!-- Terms Checkbox -->
+        <div class="mb-4">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="terms" required>
+                <label class="form-check-label small" for="terms">
+                    I agree to the 
+                    <a href="#" class="text-decoration-none" style="color: var(--accent);">Terms of Service</a> 
+                    and 
+                    <a href="#" class="text-decoration-none" style="color: var(--accent);">Privacy Policy</a>
+                </label>
+            </div>
+        </div>
+        
+        <!-- Submit Button -->
+        <button type="submit" class="btn btn-success w-100 mb-3 d-flex align-items-center justify-content-center gap-2 py-2">
+            <i class="bi bi-person-check-fill"></i>
+            Create Account
+        </button>
+        
+        <!-- Login Link -->
+        <div class="text-center">
+            <span class="text-muted small">Already have an account?</span>
+            <a href="{{ url_for('auth.login') }}" class="btn btn-ghost btn-sm ms-1">
+                <i class="bi bi-box-arrow-in-right me-1"></i>
+                Sign In
+            </a>
+        </div>
+    </form>
+    
+    <!-- Trust Indicators -->
+    <div class="text-center mt-4 pt-3 border-top">
+        <div class="d-flex justify-content-center gap-4 small-muted">
+            <span class="d-flex align-items-center gap-1">
+                <i class="bi bi-shield-lock"></i>
+                Secure
+            </span>
+            <span class="d-flex align-items-center gap-1">
+                <i class="bi bi-lightning-charge"></i>
+                Free
+            </span>
+            <span class="d-flex align-items-center gap-1">
+                <i class="bi bi-clock-history"></i>
+                Quick Setup
+            </span>
+        </div>
     </div>
-    <div>
-        <label for="password" class="form-label">Password</label>
-        <input type="password" class="form-control" id="password" name="password" required>
-    </div>
-    <div class="form-footer mt-2">
-        <span class="small-muted">Already have an account?</span>
-        <a class="btn btn-ghost" href="{{ url_for('auth.login') }}">Sign in</a>
-    </div>
-    <button type="submit" class="btn btn-primary mt-2">Register</button>
-</form>
 </div>
+
+<!-- Password Strength & Validation Script -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const passwordInput = document.getElementById('password');
+    const toggleBtn = document.getElementById('togglePassword');
+    const strengthBars = document.querySelectorAll('#passwordStrength div');
+    
+    // Password requirements elements
+    const reqLength = document.getElementById('req-length');
+    const reqUppercase = document.getElementById('req-uppercase');
+    const reqLowercase = document.getElementById('req-lowercase');
+    const reqNumber = document.getElementById('req-number');
+    const reqSpecial = document.getElementById('req-special');
+    
+    // Toggle password visibility
+    toggleBtn.addEventListener('click', function() {
+        const icon = this.querySelector('i');
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            icon.classList.remove('bi-eye-slash');
+            icon.classList.add('bi-eye');
+            this.setAttribute('title', 'Hide password');
+        } else {
+            passwordInput.type = 'password';
+            icon.classList.remove('bi-eye');
+            icon.classList.add('bi-eye-slash');
+            this.setAttribute('title', 'Show password');
+        }
+    });
+    
+    // Password strength checker
+    passwordInput.addEventListener('input', function() {
+        const password = this.value;
+        let strength = 0;
+        
+        // Check requirements
+        const hasLength = password.length >= 8;
+        const hasUpper = /[A-Z]/.test(password);
+        const hasLower = /[a-z]/.test(password);
+        const hasNumber = /[0-9]/.test(password);
+        const hasSpecial = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+        
+        // Update requirement indicators
+        updateRequirement(reqLength, hasLength);
+        updateRequirement(reqUppercase, hasUpper);
+        updateRequirement(reqLowercase, hasLower);
+        updateRequirement(reqNumber, hasNumber);
+        updateRequirement(reqSpecial, hasSpecial);
+        
+        // Calculate strength
+        if (hasLength) strength++;
+        if (hasUpper) strength++;
+        if (hasLower) strength++;
+        if (hasNumber) strength++;
+        if (hasSpecial) strength++;
+        
+        // Update strength bars
+        strengthBars.forEach((bar, index) => {
+            bar.className = 'flex-grow-1 rounded';
+            if (index < strength) {
+                if (strength <= 2) {
+                    bar.classList.add('bg-danger');
+                } else if (strength <= 3) {
+                    bar.classList.add('bg-warning');
+                } else if (strength <= 4) {
+                    bar.classList.add('bg-info');
+                } else {
+                    bar.classList.add('bg-success');
+                }
+            } else {
+                bar.classList.add('bg-light');
+            }
+        });
+        
+        // Update feedback message
+        const feedback = document.getElementById('passwordFeedback');
+        const messages = ['Very weak', 'Weak', 'Fair', 'Good', 'Strong'];
+        const colors = ['text-danger', 'text-danger', 'text-warning', 'text-info', 'text-success'];
+        const strengthLevel = Math.min(strength, 4);
+        
+        if (password.length === 0) {
+            feedback.innerHTML = '<i class="bi bi-info-circle me-1"></i>Minimum 8 characters with mixed case, numbers, and symbols';
+            feedback.className = 'form-text';
+        } else {
+            feedback.innerHTML = `<i class="bi bi-shield-check me-1"></i>Password strength: <strong>${messages[strengthLevel]}</strong>`;
+            feedback.className = `form-text ${colors[strengthLevel]}`;
+        }
+    });
+    
+    function updateRequirement(element, isValid) {
+        const icon = element.querySelector('i');
+        if (isValid) {
+            icon.className = 'bi bi-check-circle-fill text-success';
+            element.classList.remove('text-muted');
+            element.classList.add('text-success');
+        } else {
+            icon.className = 'bi bi-circle text-muted';
+            element.classList.add('text-muted');
+            element.classList.remove('text-success');
+        }
+    }
+});
+</script>
 {% endblock %}

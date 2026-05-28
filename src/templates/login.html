@@ -3,23 +3,130 @@
 {% block title %}Login{% endblock %}
 
 {% block content %}
-<div class="card-soft mx-auto" style="max-width: 560px;">
-<h2 class="h-section">Login</h2>
-<p class="small-muted mb-4">Welcome back. Enter your username and password.</p>
-<form method="POST" class="d-grid gap-3">
-    <div>
-        <label for="username" class="form-label">Username</label>
-        <input type="text" class="form-control" id="username" name="username" required>
+<div class="card-soft mx-auto" style="max-width: 520px;">
+    <!-- Header -->
+    <div class="text-center mb-4">
+        <div class="mb-3">
+            <div class="d-inline-flex align-items-center justify-content-center rounded-circle bg-primary-subtle" 
+                 style="width: 64px; height: 64px;">
+                <i class="bi bi-shield-lock-fill text-primary" style="font-size: 1.8rem;"></i>
+            </div>
+        </div>
+        <h2 class="form-heading mb-1">Welcome Back</h2>
+        <p class="form-subtitle mb-0">Sign in to manage your tasks and stay organized.</p>
     </div>
-    <div>
-        <label for="password" class="form-label">Password</label>
-        <input type="password" class="form-control" id="password" name="password" required>
+    
+    <!-- Login Form -->
+    <form method="POST" action="{{ url_for('auth.login') }}">
+        <div class="mb-3">
+            <label for="username" class="form-label">
+                <i class="bi bi-person me-1"></i>
+                Username
+            </label>
+            <div class="input-group">
+                <span class="input-group-text bg-light border-end-0">
+                    <i class="bi bi-person-fill text-muted"></i>
+                </span>
+                <input 
+                    type="text" 
+                    class="form-control border-start-0 ps-0" 
+                    id="username" 
+                    name="username" 
+                    placeholder="Enter your username" 
+                    required
+                    autofocus
+                    autocomplete="username"
+                >
+            </div>
+        </div>
+        
+        <div class="mb-4">
+            <div class="d-flex justify-content-between align-items-center mb-1">
+                <label for="password" class="form-label mb-0">
+                    <i class="bi bi-key me-1"></i>
+                    Password
+                </label>
+                <a href="#" class="text-decoration-none small fw-medium" 
+                   style="color: var(--accent);">
+                    Forgot password?
+                </a>
+            </div>
+            <div class="input-group">
+                <span class="input-group-text bg-light border-end-0">
+                    <i class="bi bi-lock-fill text-muted"></i>
+                </span>
+                <input 
+                    type="password" 
+                    class="form-control border-start-0 border-end-0 ps-0" 
+                    id="password" 
+                    name="password" 
+                    placeholder="Enter your password" 
+                    required
+                    autocomplete="current-password"
+                >
+                <button 
+                    class="btn btn-light border border-start-0" 
+                    type="button" 
+                    id="togglePassword"
+                    title="Show password"
+                >
+                    <i class="bi bi-eye-slash text-muted"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Remember Me -->
+        <div class="mb-4">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="remember" name="remember">
+                <label class="form-check-label small" for="remember">
+                    Keep me signed in for 30 days
+                </label>
+            </div>
+        </div>
+        
+        <!-- Submit Button -->
+        <button type="submit" class="btn btn-primary w-100 mb-3 d-flex align-items-center justify-content-center gap-2 py-2">
+            <i class="bi bi-box-arrow-in-right"></i>
+            Sign In
+        </button>
+        
+        <!-- Register Link -->
+        <div class="text-center">
+            <span class="text-muted small">Don't have an account?</span>
+            <a href="{{ url_for('auth.register') }}" class="btn btn-ghost btn-sm ms-1">
+                <i class="bi bi-person-plus me-1"></i>
+                Create Account
+            </a>
+        </div>
+    </form>
+    
+    <!-- Help Text -->
+    <div class="text-center mt-4 pt-3 border-top">
+        <p class="small-muted mb-0">
+            <i class="bi bi-info-circle me-1"></i>
+            Secure login with encrypted credentials
+        </p>
     </div>
-    <div class="form-footer mt-2">
-        <span class="small-muted">New here?</span>
-        <a class="btn btn-ghost" href="{{ url_for('auth.register') }}">Create account</a>
-    </div>
-    <button type="submit" class="btn btn-primary mt-2">Login</button>
-</form>
 </div>
+
+<!-- Toggle Password Visibility Script -->
+<script>
+document.getElementById('togglePassword').addEventListener('click', function() {
+    const passwordInput = document.getElementById('password');
+    const icon = this.querySelector('i');
+    
+    if (passwordInput.type === 'password') {
+        passwordInput.type = 'text';
+        icon.classList.remove('bi-eye-slash');
+        icon.classList.add('bi-eye');
+        this.setAttribute('title', 'Hide password');
+    } else {
+        passwordInput.type = 'password';
+        icon.classList.remove('bi-eye');
+        icon.classList.add('bi-eye-slash');
+        this.setAttribute('title', 'Show password');
+    }
+});
+</script>
 {% endblock %}
