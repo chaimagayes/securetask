@@ -4,15 +4,15 @@
 
 {% block content %}
 <div class="card-soft mx-auto" style="max-width: 560px;">
-<h2 class="mb-3">Login</h2>
-<p class="small-muted mb-4">Welcome back. Enter your credentials to continue.</p>
+<h2 class="h-section">Login</h2>
+<p class="small-muted mb-4">Welcome back. Enter your username and password.</p>
 <form method="POST" class="d-grid gap-3">
     <div>
-        <label for="username">Username</label>
+        <label for="username" class="form-label">Username</label>
         <input type="text" class="form-control" id="username" name="username" required>
     </div>
     <div>
-        <label for="password">Password</label>
+        <label for="password" class="form-label">Password</label>
         <input type="password" class="form-control" id="password" name="password" required>
     </div>
     <div class="form-footer mt-2">

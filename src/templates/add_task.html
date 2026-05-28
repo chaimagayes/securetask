@@ -4,32 +4,35 @@
 
 {% block content %}
 <div class="card-soft mx-auto" style="max-width: 720px;">
-<h2 class="mb-3">Add New Task</h2>
-<form method="POST" class="d-grid gap-3">
-    <div>
-        <label for="title">Title</label>
-        <input type="text" class="form-control" id="title" name="title" required>
-    </div>
-    <div>
-        <label for="description">Description</label>
-        <textarea class="form-control" id="description" name="description"></textarea>
-    </div>
-    <div>
-        <label for="due_date">Due Date</label>
-        <input type="date" class="form-control" id="due_date" name="due_date" required>
-    </div>
-    <div>
-        <label for="priority">Priority</label>
-        <select class="form-control" id="priority" name="priority">
-            <option>Low</option>
-            <option>Medium</option>
-            <option>High</option>
-        </select>
-    </div>
-    <div class="d-flex gap-2">
-        <button type="submit" class="btn btn-primary">Add Task</button>
-        <a href="{{ url_for('tasks.dashboard') }}" class="btn btn-ghost">Cancel</a>
-    </div>
-</form>
+    <h2 class="h-section">Add Task</h2>
+    <p class="small-muted mb-4">Create a task with a clear due date and priority.</p>
+    <form method="POST" class="d-grid gap-3">
+        <div>
+            <label for="title" class="form-label">Title</label>
+            <input type="text" class="form-control" id="title" name="title" required>
+        </div>
+        <div>
+            <label for="description" class="form-label">Description</label>
+            <textarea class="form-control" id="description" name="description"></textarea>
+        </div>
+        <div class="row g-3">
+            <div class="col-md-6">
+                <label for="due_date" class="form-label">Due Date</label>
+                <input type="date" class="form-control" id="due_date" name="due_date" required>
+            </div>
+            <div class="col-md-6">
+                <label for="priority" class="form-label">Priority</label>
+                <select class="form-select" id="priority" name="priority">
+                    <option>Low</option>
+                    <option>Medium</option>
+                    <option>High</option>
+                </select>
+            </div>
+        </div>
+        <div class="d-flex gap-2 pt-1">
+            <button type="submit" class="btn btn-primary">Save Task</button>
+            <a href="{{ url_for('tasks.dashboard') }}" class="btn btn-ghost">Cancel</a>
+        </div>
+    </form>
 </div>
 {% endblock %}

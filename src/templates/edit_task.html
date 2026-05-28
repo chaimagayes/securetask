@@ -4,30 +4,33 @@
 
 {% block content %}
 <div class="card-soft mx-auto" style="max-width: 720px;">
-<h2 class="mb-3">Edit Task</h2>
+<h2 class="h-section">Edit Task</h2>
+<p class="small-muted mb-4">Update the details and save your changes.</p>
 <form method="POST" action="{{ url_for('tasks.edit_task', task_id=task.id) }}" class="d-grid gap-3">
     <input type="hidden" name="_method" value="PUT">
     <div>
-        <label for="title">Title</label>
+        <label for="title" class="form-label">Title</label>
         <input type="text" class="form-control" id="title" name="title" value="{{ task.title }}" required>
     </div>
     <div>
-        <label for="description">Description</label>
+        <label for="description" class="form-label">Description</label>
         <textarea class="form-control" id="description" name="description">{{ task.description }}</textarea>
     </div>
-    <div>
-        <label for="due_date">Due Date</label>
-        <input type="date" class="form-control" id="due_date" name="due_date" value="{{ task.due_date.strftime('%Y-%m-%d') }}" required>
+    <div class="row g-3">
+        <div class="col-md-6">
+            <label for="due_date" class="form-label">Due Date</label>
+            <input type="date" class="form-control" id="due_date" name="due_date" value="{{ task.due_date.strftime('%Y-%m-%d') }}" required>
+        </div>
+        <div class="col-md-6">
+            <label for="priority" class="form-label">Priority</label>
+            <select class="form-select" id="priority" name="priority">
+                <option {{ 'selected' if task.priority == 'Low' else '' }}>Low</option>
+                <option {{ 'selected' if task.priority == 'Medium' else '' }}>Medium</option>
+                <option {{ 'selected' if task.priority == 'High' else '' }}>High</option>
+            </select>
+        </div>
     </div>
-    <div>
-        <label for="priority">Priority</label>
-        <select class="form-control" id="priority" name="priority">
-            <option {{ 'Low' if task.priority == 'Low' else '' }}>Low</option>
-            <option {{ 'Medium' if task.priority == 'Medium' else '' }}>Medium</option>
-            <option {{ 'High' if task.priority == 'High' else '' }}>High</option>
-        </select>
-    </div>
-    <div class="d-flex gap-2">
+    <div class="d-flex gap-2 pt-1">
         <button type="submit" class="btn btn-primary">Update Task</button>
         <a href="{{ url_for('tasks.dashboard') }}" class="btn btn-ghost">Cancel</a>
     </div>
