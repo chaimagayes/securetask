@@ -81,8 +81,9 @@ jobs:
 
             cd "$HOME/securetask"
 
-            # Write .env from secret (overwrite on every deploy)
-            printf '%s' "$ENV_FILE" > .env
+            # Write .env from secret (overwrite on every deploy) and force trailing newline
+            # so appended keys never concatenate with the last value.
+            printf '%s\n' "$ENV_FILE" > .env
 
             APP_IMAGE="ghcr.io/${{ github.repository }}:latest"
             echo "APP_IMAGE=${APP_IMAGE}" >> .env
