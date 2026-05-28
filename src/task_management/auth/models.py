@@ -17,7 +17,8 @@ class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(128), index=True, unique=True, nullable=False)
     email_id = db.Column(db.String(128), index=True, unique=True, nullable=False)
-    password = db.Column(db.String(128), nullable=False)
+    # Increase password column size to support modern hashed formats (scrypt, bcrypt, argon2)
+    password = db.Column(db.String(512), nullable=False)
     created_on = db.Column(db.DateTime, default=datetime.utcnow)
     
     def __repr__(self):

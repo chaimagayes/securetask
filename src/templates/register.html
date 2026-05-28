@@ -3,20 +3,27 @@
 {% block title %}Register{% endblock %}
 
 {% block content %}
-<h2>Register</h2>
-<form method="POST">
-    <div class="form-group">
+<div class="card-soft mx-auto" style="max-width: 560px;">
+<h2 class="mb-3">Create Account</h2>
+<p class="small-muted mb-4">Simple task tracking with a clean dashboard.</p>
+<form method="POST" class="d-grid gap-3">
+    <div>
         <label for="username">Username</label>
         <input type="text" class="form-control" id="username" name="username" required>
     </div>
-    <div class="form-group">
+    <div>
         <label for="email">Email</label>
         <input type="email" class="form-control" id="email" name="email_id" required>
     </div>
-    <div class="form-group">
+    <div>
         <label for="password">Password</label>
         <input type="password" class="form-control" id="password" name="password" required>
     </div>
-    <button type="submit" class="btn btn-primary">Register</button>
+    <div class="form-footer mt-2">
+        <span class="small-muted">Already have an account?</span>
+        <a class="btn btn-ghost" href="{{ url_for('auth.login') }}">Sign in</a>
+    </div>
+    <button type="submit" class="btn btn-primary mt-2">Register</button>
 </form>
+</div>
 {% endblock %}
