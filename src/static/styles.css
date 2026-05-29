@@ -74,8 +74,7 @@ body {
 }
 
 .app-container {
-  max-width: 1200px;
-  margin: 0 auto;
+  width: 100%;
   padding-left: 1rem;
   padding-right: 1rem;
 }
@@ -662,12 +661,15 @@ h2 {
 ::-webkit-scrollbar-thumb:hover {
   background: #94a3b8;
 }
-.app-topbar .app-container {
-  width: 100%;
-}
-
-.navbar .container-fluid {
+.task-actions {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.task-actions .btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
