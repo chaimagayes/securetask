@@ -58,13 +58,12 @@ body {
 
 /* ---------- Top Navigation Bar ---------- */
 .app-topbar {
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border-bottom: 1px solid var(--line);
+  background: #ffffff;
+  border-bottom: 1px solid #e2e8f0;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
   position: sticky;
   top: 0;
-  z-index: 30;
+  z-index: 1000;
 }
 
 .navbar {
@@ -133,6 +132,10 @@ body {
 .nav-action-links {
   gap: 0.5rem;
 }
+.nav-action-links {
+  display: flex;
+  align-items: center;
+}
 
 /* Divider between nav sections on desktop */
 .nav-action-links::before {
@@ -175,7 +178,10 @@ body {
   transition: all var(--transition);
   cursor: pointer;
 }
-
+.btn-primary {
+  border-radius: 20px;
+  font-weight: 600;
+}
 .btn-logout:hover {
   background: #fee2e2;
   color: #991b1b;
@@ -235,13 +241,8 @@ body {
 .content-wrap {
   max-width: 960px;
   margin: 28px auto;
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
   padding: 28px;
 }
-
 /* ---------- Alert Messages ---------- */
 .alerts-wrap {
   max-width: 960px;
