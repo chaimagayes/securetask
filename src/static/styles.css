@@ -665,11 +665,37 @@ h2 {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  flex-wrap: wrap;
+  flex-shrink: 0;
 }
 
 .task-actions .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  min-width: 34px;
+  min-height: 34px;
+  padding: 0.35rem 0.5rem;
+}
+.navbar .app-container {
+  display: flex;
+  align-items: center;
+}
+
+/* LOGO à gauche */
+.navbar-brand {
+  margin-right: auto;
+}
+
+/* NAV LINKS au centre/gauche */
+.nav-main-links {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* ACTIONS à droite */
+.nav-action-links {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
 }
