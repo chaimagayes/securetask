@@ -74,7 +74,8 @@ body {
 }
 
 .app-container {
-  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
   padding-left: 1rem;
   padding-right: 1rem;
 }
@@ -660,4 +661,8 @@ h2 {
 
 ::-webkit-scrollbar-thumb:hover {
   background: #94a3b8;
+}
+.navbar .app-container {
+  width: 100%;
+  max-width: 100%;
 }
