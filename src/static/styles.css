@@ -684,7 +684,7 @@ h2 {
 
 .btn-outline-primary:hover {
   background: var(--accent);
-  color: #fff;
+  color: #de2424;
   border-color: var(--accent);
   box-shadow: 0 2px 8px rgba(99, 102, 241, 0.25);
 }
