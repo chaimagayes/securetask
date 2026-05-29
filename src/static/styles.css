@@ -678,7 +678,7 @@ h2 {
 }
 .btn-outline-primary {
   border-color: var(--accent);
-  color: var(--accent);
+  color:#de2424;
   font-weight: 600;
 }
 
