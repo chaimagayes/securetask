@@ -662,7 +662,12 @@ h2 {
 ::-webkit-scrollbar-thumb:hover {
   background: #94a3b8;
 }
-.navbar .app-container {
+.app-topbar .app-container {
   width: 100%;
-  max-width: 100%;
+}
+
+.navbar .container-fluid {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
