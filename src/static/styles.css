@@ -724,7 +724,7 @@ h2 {
 .status-btn.active {
     background: var(--accent);
     border-color: var(--accent);
-    color: #fff;
+    color: #cf4343;
 }
 
 .status-btn.active:hover {
