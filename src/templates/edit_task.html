@@ -98,7 +98,7 @@
                     class="form-control" 
                     id="due_date" 
                     name="due_date" 
-                    value="{{ task.due_date.strftime('%Y-%m-%d') }}" 
+                   value="{{ task.due_date.strftime('%Y-%m-%d') if task.due_date else '' }}"
                     required
                 >
                 {% if task.due_date %}
@@ -243,7 +243,7 @@
 }
 
 .status-btn:hover {
-    background: var(--accent-light);
+    background: var(--accent);
     border-color: #c7d2fe;
     color: var(--accent);
 }

@@ -84,3 +84,8 @@ app = create_web_app()
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000, debug=True)
+from datetime import datetime
+
+@app.context_processor
+def inject_now():
+    return {'now': datetime.utcnow}
